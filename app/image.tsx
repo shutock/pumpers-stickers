@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import Img from "next/image";
@@ -78,13 +79,21 @@ export const Image: React.FC<React.ComponentProps<typeof Img>> = (props) => {
   };
 
   return (
-    <Img
+    <img
       {...{
         ...props,
         src: `${props.src}?token=${token}`,
+        alt: "Sticker",
         ref,
         onMouseDown,
-        style: { cursor: "grab" },
+        style: {
+          cursor: "grab",
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+        },
       }}
     />
   );
