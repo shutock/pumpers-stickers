@@ -11,6 +11,7 @@ import type { Metadata } from "next";
 
 import { Image } from "./image";
 import { Input } from "./input";
+import { Suspense } from "react";
 
 const path = "app/api/stickers/token";
 const files = readdirSync(path);
@@ -28,7 +29,9 @@ const HomePage: React.FC = () => {
         Pumpers Stickers generator
       </Heading>
 
-      <Input />
+      <Suspense>
+        <Input />
+      </Suspense>
 
       <Grid {...{ gap: "4", columns: { xs: "3", sm: "4", md: "5" } }}>
         {files.map((file, id) => {
@@ -38,15 +41,17 @@ const HomePage: React.FC = () => {
           return (
             <Box key={`${file}${id}`}>
               <AspectRatio {...{ ratio: 1 / 1 }} asChild>
-                <Image
-                  {...{
-                    src: `${path.replace("app", "")}/${file}`,
-                    alt: name,
-                    fill: true,
-                    sizes: "512,256,128",
-                    priority: false,
-                  }}
-                />
+                <Suspense>
+                  <Image
+                    {...{
+                      src: `${path.replace("app", "")}/${file}`,
+                      alt: name,
+                      fill: true,
+                      sizes: "512,256,128",
+                      priority: false,
+                    }}
+                  />
+                </Suspense>
               </AspectRatio>
 
               <Text {...{ align: "center", mt: "1", size: "2" }} asChild>
