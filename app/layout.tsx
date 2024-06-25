@@ -4,7 +4,17 @@ import { ScrollArea, Theme, ThemePanel } from "@radix-ui/themes";
 
 import "@radix-ui/themes/styles.css";
 
-export const metadata: Metadata = {};
+let origin = process.env.APP_URL;
+if (!origin) throw new Error("missing APP_URL");
+
+if (process.env.NODE_ENV === "development") origin = `http://${origin}`;
+else origin = `https://${origin}`;
+
+export const metadata: Metadata = {
+  openGraph: {
+    images: [`${origin}/og.png`],
+  },
+};
 
 type Props = { children: React.ReactNode };
 
