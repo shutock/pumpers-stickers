@@ -7,8 +7,8 @@ import type { Route } from "@/types";
 
 const size = 512;
 
-let origin = process.env.VERCEL_URL;
-if (!origin) throw new Error("missing VERCEL_URL");
+let origin = process.env.APP_URL;
+if (!origin) throw new Error("missing APP_URL");
 
 if (process.env.NODE_ENV === "development") origin = `http://${origin}`;
 else origin = `https://${origin}`;
