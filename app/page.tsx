@@ -1,95 +1,63 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import {
+  AspectRatio,
+  Box,
+  Container,
+  Grid,
+  Heading,
+  Text,
+} from "@radix-ui/themes";
+import { readdirSync } from "fs";
+import type { Metadata } from "next";
 
-export default function Home() {
+import { Image } from "./image";
+import { Input } from "./input";
+
+const path = "app/api/stickers/token";
+const files = readdirSync(path);
+
+export const metadata: Metadata = {
+  title: "Pumpers Stickers",
+  description:
+    "Preview sandbox for token-generated sticker packs launched on Pumpers",
+};
+
+const HomePage: React.FC = () => {
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+    <Container {...{ px: "4", py: "8" }}>
+      <Heading {...{ align: "center", size: "8" }}>
+        Pumpers Stickers generator
+      </Heading>
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+      <Input />
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
+      <Grid {...{ gap: "4", columns: { xs: "3", sm: "4", md: "5" } }}>
+        {files.map((file, id) => {
+          let name = file.replaceAll("-", " ");
+          name = name.charAt(0).toUpperCase() + name.slice(1);
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
+          return (
+            <Box key={`${file}${id}`}>
+              <AspectRatio {...{ ratio: 1 / 1 }} asChild>
+                <Image
+                  {...{
+                    src: `${path.replace("app", "")}/${file}`,
+                    alt: name,
+                    fill: true,
+                    sizes: "512,256,128",
+                    priority: false,
+                  }}
+                />
+              </AspectRatio>
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+              <Text {...{ align: "center", mt: "1", size: "2" }} asChild>
+                <div>{name}</div>
+              </Text>
+            </Box>
+          );
+        })}
+      </Grid>
+    </Container>
   );
-}
+};
+
+export default HomePage;
