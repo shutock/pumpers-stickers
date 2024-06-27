@@ -5,7 +5,7 @@ import type { Route } from "@/types";
 
 export const GET: Route<{ pack: string }> = async (_, { params: { pack } }) => {
   try {
-    const packs = readdirSync(`app/api/stickers/token`);
+    const packs = readdirSync(`app/api/stickers`);
     if (!packs.includes(pack)) throw new Error(`Pack ${pack} not found`);
 
     const stickers = readdirSync(`app/api/stickers/${pack}`);
