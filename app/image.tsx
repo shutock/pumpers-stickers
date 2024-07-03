@@ -1,11 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import Img from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useRef } from "react";
 
-export const Image: React.FC<React.ComponentProps<typeof Img>> = (props) => {
+export const Image: React.FC<React.ComponentProps<"img">> = ({
+  src,
+  ...props
+}) => {
   const searchParams = useSearchParams();
   const token = decodeURI(
     searchParams.get("token") || "https://pumpers.tg/favicon.png"
@@ -82,10 +84,11 @@ export const Image: React.FC<React.ComponentProps<typeof Img>> = (props) => {
     <img
       {...{
         ...props,
-        src: `${props.src}?token=${token}`,
+        src: `${src}?token=${token}`,
         alt: "Sticker",
         ref,
         onMouseDown,
+        loading: "lazy",
         style: {
           cursor: "grab",
           position: "absolute",

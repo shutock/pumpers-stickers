@@ -33,7 +33,7 @@ const HomePage: React.FC = () => {
         <Input />
       </Suspense>
 
-      <Grid {...{ gap: "4", columns: { xs: "3", sm: "4", md: "5" } }}>
+      <Grid {...{ gap: "4", columns: { initial: "3", sm: "4", md: "5" } }}>
         {files.map((file, id) => {
           let name = file.replaceAll("-", " ");
           name = name.charAt(0).toUpperCase() + name.slice(1);
@@ -45,7 +45,8 @@ const HomePage: React.FC = () => {
                   <Image
                     {...{
                       src: `${path.replace("app", "")}/${file}`,
-                      alt: name,
+                      alt: `${name} sticker`,
+                      loading: "lazy",
                       fill: true,
                       sizes: "512,256,128",
                       priority: false,
@@ -54,7 +55,14 @@ const HomePage: React.FC = () => {
                 </Suspense>
               </AspectRatio>
 
-              <Text {...{ align: "center", mt: "1", size: "2" }} asChild>
+              <Text
+                {...{
+                  align: "center",
+                  mt: "1",
+                  size: { initial: "1", sm: "2", md: "3" },
+                }}
+                asChild
+              >
                 <div>{name}</div>
               </Text>
             </Box>
